@@ -33,19 +33,19 @@ public class WalletConnectModal {
         )
     }()
     
-    struct Config {
+    public struct Config {
         static let sdkVersion: String = "swift-\(EnvironmentInfo.packageVersion)"
         static let sdkType = "wcm"
         
-        let projectId: String
-        var metadata: AppMetadata
-        var sessionParams: SessionParams
+        public let projectId: String
+        public var metadata: AppMetadata
+        public var sessionParams: SessionParams
         
-        let recommendedWalletIds: [String]
-        let excludedWalletIds: [String]
+        public let recommendedWalletIds: [String]
+        public let excludedWalletIds: [String]
     }
     
-    private(set) static var config: Config!
+    public private(set) static var config: Config!
 
     private init() {}
 

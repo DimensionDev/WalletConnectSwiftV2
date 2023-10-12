@@ -34,6 +34,7 @@ public extension HTTPService {
             return nil
         }
         var request = URLRequest(url: url)
+        request.cachePolicy = .returnCacheDataElseLoad
         request.httpMethod = method.rawValue
         additionalHeaderFields?.forEach {
             request.addValue($0.value, forHTTPHeaderField: $0.key)

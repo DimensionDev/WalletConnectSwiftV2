@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct ModalSheet: View {
-    @ObservedObject var viewModel: ModalViewModel
+    @StateObject var viewModel: ModalViewModel
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
