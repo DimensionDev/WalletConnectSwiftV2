@@ -1,18 +1,18 @@
 import Foundation
 
-struct ListingsResponse: Codable {
-    let listings: [String: Listing]
+public struct ListingsResponse: Codable {
+    public let listings: [String: Listing]
 }
 
-struct Listing: Codable, Hashable, Identifiable {
-    let id: String
-    let name: String
-    let homepage: String
-    let order: Int?
-    let imageId: String
-    let app: App
-    let mobile: Mobile
-    var lastTimeUsed: Date? 
+public struct Listing: Codable, Hashable, Identifiable {
+    public let id: String
+    public let name: String
+    public let homepage: String
+    public let order: Int?
+    public let imageId: String
+    public let app: App
+    public let mobile: Mobile
+    public var lastTimeUsed: Date?
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -25,14 +25,14 @@ struct Listing: Codable, Hashable, Identifiable {
         case lastTimeUsed
     }
 
-    struct App: Codable, Hashable {
-        let ios: String?
-        let mac: String?
-        let safari: String?
+    public struct App: Codable, Hashable {
+        public let ios: String?
+        public let mac: String?
+        public let safari: String?
     }
     
-    struct Mobile: Codable, Hashable {
-        let native: String?
-        let universal: String?
+    public struct Mobile: Codable, Hashable {
+        public let native: String?
+        public let universal: String?
     }
 }

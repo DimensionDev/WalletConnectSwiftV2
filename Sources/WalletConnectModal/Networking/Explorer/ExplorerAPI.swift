@@ -1,7 +1,7 @@
 import Foundation
 import HTTPClient
 
-enum ExplorerAPI: HTTPService {
+public enum ExplorerAPI: HTTPService {
     case getListings(
         projectId: String,
         metadata: AppMetadata,
@@ -9,23 +9,23 @@ enum ExplorerAPI: HTTPService {
         excludedIds: [String]
     )
 
-    var path: String {
+    public var path: String {
         switch self {
         case .getListings: return "/w3m/v1/getiOSListings"
         }
     }
 
-    var method: HTTPMethod {
+    public var method: HTTPMethod {
         switch self {
         case .getListings: return .get
         }
     }
 
-    var body: Data? {
+    public var body: Data? {
         nil
     }
 
-    var queryParameters: [String: String]? {
+    public var queryParameters: [String: String]? {
         switch self {
         case let .getListings(projectId, _, recommendedIds, excludedIds):
             return [
@@ -41,11 +41,11 @@ enum ExplorerAPI: HTTPService {
         }
     }
 
-    var scheme: String {
+    public var scheme: String {
         return "https"
     }
 
-    var additionalHeaderFields: [String: String]? {
+    public var additionalHeaderFields: [String: String]? {
         switch self {
         case let .getListings(_, metadata, _, _):
             return [

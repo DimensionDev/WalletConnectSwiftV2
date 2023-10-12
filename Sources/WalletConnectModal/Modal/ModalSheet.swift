@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct ModalSheet: View {
-    @ObservedObject var viewModel: ModalViewModel
+    @StateObject var viewModel: ModalViewModel
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
@@ -177,7 +177,7 @@ extension ModalSheet {
         Button {
             viewModel.onCloseButton()
         } label: {
-            Image(.close)
+            Image(Asset.close)
                 .padding(8)
         }
         .buttonStyle(CircuralIconButtonStyle())
