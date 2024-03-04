@@ -34,7 +34,7 @@ enum Destination: Equatable {
     }
 }
 
-final class ModalViewModel: ObservableObject {
+public final class ModalViewModel: ObservableObject {
     var isShown: Binding<Bool>
     let interactor: ModalSheetInteractor
     let uiApplicationWrapper: UIApplicationWrapper
@@ -315,13 +315,13 @@ extension ModalViewModel: WalletDeeplinkHandler {
     }
 }
 
-private extension ModalViewModel {
-    enum DeeplinkErrors: LocalizedError {
+extension ModalViewModel {
+    public enum DeeplinkErrors: LocalizedError {
         case noWalletLinkFound
         case uriNotCreated
         case failedToOpen
         
-        var errorDescription: String? {
+        public var errorDescription: String? {
             switch self {
             case .noWalletLinkFound:
                 return NSLocalizedString("No valid link for opening given wallet found", comment: "")

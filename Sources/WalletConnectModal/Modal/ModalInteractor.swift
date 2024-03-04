@@ -10,9 +10,10 @@ protocol ModalSheetInteractor {
     var sessionRejectionPublisher: AnyPublisher<(Session.Proposal, Reason), Never> { get }
 }
 
-final class DefaultModalSheetInteractor: ModalSheetInteractor {
-    lazy var sessionSettlePublisher: AnyPublisher<Session, Never> = WalletConnectModal.instance.sessionSettlePublisher
-    lazy var sessionRejectionPublisher: AnyPublisher<(Session.Proposal, Reason), Never> = WalletConnectModal.instance.sessionRejectionPublisher
+public final class DefaultModalSheetInteractor: ModalSheetInteractor {
+    public init() { }
+    public lazy var sessionSettlePublisher: AnyPublisher<Session, Never> = WalletConnectModal.instance.sessionSettlePublisher
+    public lazy var sessionRejectionPublisher: AnyPublisher<(Session.Proposal, Reason), Never> = WalletConnectModal.instance.sessionRejectionPublisher
     
     func getWallets(page: Int, entries: Int) async throws -> (Int, [Wallet]) {
         let httpClient = HTTPNetworkClient(host: "api.web3modal.org")
@@ -34,7 +35,7 @@ final class DefaultModalSheetInteractor: ModalSheetInteractor {
         return (response.count, response.data.compactMap { $0 })
     }
     
-    func createPairingAndConnect() async throws -> WalletConnectURI? {
+    public func createPairingAndConnect() async throws -> WalletConnectURI? {
         try await WalletConnectModal.instance.connect(topic: nil)
     }
 }
