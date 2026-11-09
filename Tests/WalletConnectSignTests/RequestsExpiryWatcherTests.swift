@@ -130,7 +130,9 @@ final class RequestsExpiryWatcherTests: XCTestCase {
 
     func testAuthenticationRequestsStillExpire() async throws {
         let fixture = ExpiryFixture()
-        let requester = Participant(publicKey: "expiry-test", metadata: AppMetadata(name: "Expiry test", description: "", url: "https://example.com", icons: []))
+        let redirect = try AppMetadata.Redirect(native: "expiry-test://", universal: nil)
+        let metadata = AppMetadata(name: "Expiry test", description: "", url: "https://example.com", icons: [], redirect: redirect)
+        let requester = Participant(publicKey: "expiry-test", metadata: metadata)
         let payload = AuthPayload(domain: "example.com", aud: "https://example.com", version: "1", nonce: "1", chains: ["eip155:1"], type: "eip4361", iat: "2026-11-09T00:00:00Z")
         let params = SessionAuthenticateRequestParams(requester: requester, authPayload: payload, ttl: 0)
         let request = RPCRequest(method: "wc_sessionAuthenticate", params: params)
