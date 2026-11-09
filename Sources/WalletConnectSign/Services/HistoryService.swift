@@ -63,16 +63,27 @@ final class HistoryService: HistoryServiceProtocol {
         var expirableRpcIds: [(Expirable, RPCID)] = []
 
         for record in pendingRequests {
-
-            if let requestParams = try? record.request.params?.get(SessionType.RequestParams.self) {
-                expirableRpcIds.append((requestParams.request, record.id))
-            }
-            else if let authRequestParams = try? record.request.params?.get(SessionAuthenticateRequestParams.self) {
-                expirableRpcIds.append((authRequestParams, record.id))
+            if let request = expirableRequest(from: record) {
+                expirableRpcIds.append((request, record.id))
             }
         }
 
         return expirableRpcIds
+    }
+
+    func getPendingExpirableRequest(id: RPCID) -> Expirable? {
+        guard let record = history.get(recordId: id), record.response == nil else { return nil }
+        return expirableRequest(from: record)
+    }
+
+    private func expirableRequest(from record: RPCHistory.Record) -> Expirable? {
+        if let params = try? record.request.params?.get(SessionType.RequestParams.self) {
+            return params.request
+        }
+        if let params = try? record.request.params?.get(SessionAuthenticateRequestParams.self) {
+            return params
+        }
+        return nil
     }
 
     func getPendingRequests(topic: String) -> [(request: Request, context: VerifyContext?)] {
