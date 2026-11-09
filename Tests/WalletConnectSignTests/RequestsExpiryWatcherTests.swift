@@ -130,7 +130,9 @@ final class RequestsExpiryWatcherTests: XCTestCase {
 
     func testAuthenticationRequestsStillExpire() async throws {
         let fixture = ExpiryFixture()
-        let params = SessionAuthenticateRequestParams(requester: .stub(), authPayload: .stub(), ttl: 0)
+        let requester = Participant(publicKey: "expiry-test", metadata: AppMetadata(name: "Expiry test", description: "", url: "https://example.com", icons: []))
+        let payload = AuthPayload(domain: "example.com", aud: "https://example.com", version: "1", nonce: "1", chains: ["eip155:1"], type: "eip4361", iat: "2026-11-09T00:00:00Z")
+        let params = SessionAuthenticateRequestParams(requester: requester, authPayload: payload, ttl: 0)
         let request = RPCRequest(method: "wc_sessionAuthenticate", params: params)
         try fixture.history.set(request, forTopic: "auth-test", emmitedBy: .remote, transportType: .relay)
         let delivered = expectation(description: "authentication expiration")
@@ -188,7 +190,8 @@ private final class ExpiryFixture {
 
     func insertRequest(expiry: UInt64?) throws -> RPCRequest {
         let chain = try XCTUnwrap(Blockchain("eip155:1"))
-        let request = RPCRequest.stubRequest(method: "personal_sign", chainId: chain, expiry: expiry)
+        let params = SessionType.RequestParams(request: .init(method: "personal_sign", params: AnyCodable(["message"]), expiryTimestamp: expiry), chainId: chain)
+        let request = RPCRequest(method: "wc_sessionRequest", params: params)
         try history.set(request, forTopic: "expiry-test", emmitedBy: .remote, transportType: .relay)
         return request
     }
